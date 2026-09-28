@@ -97,6 +97,7 @@ etc.) e a UI não precisa ser tocada.
 - [x] **Fase 3** — mocks de rede (`page.route`), visual regression com baseline real (Docker,
       matching o SO do CI), acessibilidade (`@axe-core/playwright`), incluindo 2 achados reais
       documentados em `docs/sut-serverest.md`.
-- [ ] **Fase 4** — módulo de automação em Canvas com um jogo próprio (jogo da memória, `game/`):
+- [x] **Fase 4** — módulo de automação em Canvas com um jogo próprio (jogo da memória, `game/`):
       estado real exposto (`window.__gameState`), seed determinística, delay assíncrono real de
-      comparação, validação por estado + pixel do canvas. Pendente validação numa execução real.
+      comparação, validação por estado + pixel do canvas. Validado: 30/30 (29 passed, 1 skipped
+      fora do Linux) na máquina real.
