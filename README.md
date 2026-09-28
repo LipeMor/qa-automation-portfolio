@@ -32,12 +32,17 @@ npm test                                       # sobe API + front e roda a suít
 Outros comandos úteis:
 
 ```bash
-npm run test:ui       # Playwright UI mode (interativo)
-npm run test:headed   # com browser visível
-npm run report        # abre o último relatório HTML
-npm run lint           # ESLint
-npm run typecheck      # tsc --noEmit
-npm run format:check   # Prettier
+npm run test:ui              # Playwright UI mode (interativo)
+npm run test:headed          # com browser visível
+npm run test:api             # só a suíte de API (tag @api), sem abrir browser
+npm run test:network         # só os testes de mock de rede (tag @network)
+npm run test:visual          # só os testes de visual regression (tag @visual)
+npm run test:accessibility   # só os testes de acessibilidade (tag @accessibility)
+npm run test:visual:update   # regenera os baselines de visual regression (roda em Docker)
+npm run report                # abre o último relatório HTML
+npm run lint                  # ESLint
+npm run typecheck             # tsc --noEmit
+npm run format:check          # Prettier
 ```
 
 `npm test` sobe e derruba a API e o front sozinho (`webServer` no `playwright.config.ts`). Não
@@ -55,10 +60,14 @@ src/
     auth/               # login via UI: credenciais válidas, senha errada, email inexistente
     access-control/     # verificação de sessão e o gap real de RBAC do front do ServeRest
     api/                # testes de API pura (sem browser): contrato, validação e RBAC real da API
+    network/            # mocks de rede (page.route) para falhas que a API local não reproduz
+    visual/             # visual regression com baseline real (toHaveScreenshot)
+    accessibility/      # varredura WCAG 2 A/AA com @axe-core/playwright
 docs/
   sut-serverest.md   # por que e como o SUT roda local, e o que foi verificado no código dele
 scripts/
-  setup-sut.sh       # clona, aplica o patch necessário e builda o front do ServeRest
+  setup-sut.sh                  # clona, aplica o patch necessário e builda o front do ServeRest
+  update-visual-baselines.sh    # regenera os baselines de visual regression via Docker
 ```
 
 `npm run test:api` roda só a suíte de API (tag `@api`) — nenhum teste ali usa `page`, então o

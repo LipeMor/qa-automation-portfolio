@@ -94,3 +94,13 @@ mudou.
    respondem `{ message: "<mensagem>" }`. `src/support/api/schemas.ts` modela os dois formatos
    separados (`FieldValidationErrorSchema` vs `ErrorMessageSchema`) — tratar os dois como a mesma
    forma faria um teste passar checando o campo errado.
+
+6. **Falha de rede no login não mostra nenhuma mensagem ao usuário — o front só trata erro HTTP,
+   não erro de rede.**
+   `src/views/login.js` faz `error.response.data.message` direto no `catch` do login, sem checar
+   se `error.response` existe. O axios só popula `error.response` quando o servidor respondeu com
+   um status de erro (4xx/5xx); numa falha de rede de verdade (conexão recusada, timeout, DNS)
+   `error.response` é `undefined`, e esse acesso lança `TypeError` antes de qualquer `setState`
+   rodar — nenhum alerta aparece, o formulário só fica parado sem feedback. Como a API local daqui
+   sempre responde, essa classe de falha só é reprodutível com `page.route()` interceptando e
+   abortando a chamada. Coberto em `src/tests/network/login-network-failure.spec.ts`.

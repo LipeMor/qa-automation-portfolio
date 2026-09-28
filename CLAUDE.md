@@ -66,8 +66,23 @@ está certo.
   `docs/sut-serverest.md` na seção "Comportamentos reais documentados", com o teste que o cobre.
   Essa seção existe para não repetir a investigação da próxima vez.
 
+## Testes de rede, visual e acessibilidade (`src/tests/network|visual|accessibility/`)
+
+- **Mocks de rede** (`page.route`) servem pra reproduzir uma classe de falha que a API local não
+  produz sozinha (erro de conexão, timeout) — não pra substituir um teste que a API real já cobre.
+  Antes de interceptar uma rota, confirme no código do front o que ela realmente faz sem tratamento
+  (mesma disciplina de "não invente comportamento" do resto do projeto).
+- **Visual regression** (`toHaveScreenshot`) tem baseline commitado (`*-snapshots/` ao lado do
+  arquivo de teste). Gere ou atualize esse baseline só com `npm run test:visual:update`
+  (`scripts/update-visual-baselines.sh`, roda em Docker) — nunca com `--update-snapshots` direto no
+  Mac. O CI roda em `ubuntu-latest`; um baseline gerado no macOS tem anti-aliasing de fonte
+  diferente e falha no primeiro push por causa do SO, não por regressão de verdade.
+- **Acessibilidade** (`@axe-core/playwright`) escaneia com as tags `wcag2a`/`wcag2aa` e falha em
+  violação `critical`/`serious`. Se um teste novo falhar por uma violação real do front (não um bug
+  do teste), não enfraqueça a asserção pra passar — documente o achado em
+  `docs/sut-serverest.md` como comportamento real, mesmo padrão já usado pros gaps de RBAC.
+
 ## Fora de escopo por enquanto
 
-Mocks de rede, visual regression e o módulo de Canvas/WebGL são as próximas fases (ver Roadmap no
-`README.md`) — ainda não existem neste repositório. Não comece a implementá-los a menos que a
-tarefa peça explicitamente.
+O módulo de Canvas/WebGL (Fase 4 do Roadmap no `README.md`) ainda não existe neste repositório.
+Não comece a implementá-lo a menos que a tarefa peça explicitamente.

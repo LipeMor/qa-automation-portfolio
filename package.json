@@ -13,10 +13,15 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test:network": "playwright test --grep @network",
+    "test:visual": "playwright test --grep @visual",
+    "test:accessibility": "playwright test --grep @accessibility",
+    "test:visual:update": "bash scripts/update-visual-baselines.sh"
   },
   "license": "MIT",
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.39.5",
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.3",
