@@ -90,6 +90,7 @@ etc.) e a UI não precisa ser tocada.
 - [x] **Fase 1** — base do framework, ServeRest local, login e controle de acesso, CI verde.
 - [x] **Fase 2** — testes de API e validação de contrato (schema com zod), incluindo o RBAC real
       da API (contraste com o gap do front na Fase 1).
-- [ ] **Fase 3** — mocks de rede (`page.route`), visual regression com baseline, acessibilidade
-      (axe).
+- [x] **Fase 3** — mocks de rede (`page.route`), visual regression com baseline real (Docker,
+      matching o SO do CI), acessibilidade (`@axe-core/playwright`), incluindo 2 achados reais
+      documentados em `docs/sut-serverest.md`.
 - [ ] **Fase 4** — módulo de automação em Canvas/WebGL com um jogo próprio.

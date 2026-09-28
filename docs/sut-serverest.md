@@ -104,3 +104,14 @@ mudou.
    rodar — nenhum alerta aparece, o formulário só fica parado sem feedback. Como a API local daqui
    sempre responde, essa classe de falha só é reprodutível com `page.route()` interceptando e
    abortando a chamada. Coberto em `src/tests/network/login-network-failure.spec.ts`.
+
+7. **Duas violações reais de acessibilidade (WCAG 2 A/AA) na tela de login, confirmadas com
+   `@axe-core/playwright` rodando de verdade.**
+   - `color-contrast` (serious): o link "Cadastre-se" (`small.message` em
+     `.sut/front/src/views/login.js`) usa `#888888` sobre fundo branco — razão de contraste 3.54,
+     abaixo do mínimo de 4.5:1 exigido pra texto normal.
+   - `image-alt` (critical): a logo do ServeRest (`<img>` em `login.js`) não tem atributo `alt`.
+
+   Coberto em `src/tests/accessibility/login.a11y.spec.ts`, travando os dois IDs em vez de exigir
+   "zero violação" — esconder o achado forçando a asserção passar seria o oposto do que essa seção
+   existe pra fazer.
