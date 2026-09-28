@@ -17,7 +17,8 @@
     "test:network": "playwright test --grep @network",
     "test:visual": "playwright test --grep @visual",
     "test:accessibility": "playwright test --grep @accessibility",
-    "test:visual:update": "bash scripts/update-visual-baselines.sh"
+    "test:visual:update": "bash scripts/update-visual-baselines.sh",
+    "test:game": "playwright test --grep @game"
   },
   "license": "MIT",
   "devDependencies": {

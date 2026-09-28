@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Memory Match</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #1b1f27;
+        font-family: system-ui, sans-serif;
+      }
+      #hud {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        color: #e8e8e8;
+        font-size: 14px;
+      }
+      #board {
+        background: #262b36;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hud" data-testid="hud"></div>
+    <canvas id="board" data-testid="memory-board" width="480" height="480"></canvas>
+    <script src="game.js"></script>
+  </body>
+</html>

@@ -7,6 +7,9 @@ import { defineConfig, devices } from '@playwright/test';
  */
 const FRONT_URL = process.env.FRONT_URL ?? 'http://localhost:8080';
 const API_URL = process.env.API_URL ?? 'http://localhost:3000';
+// game/ é um jogo original (Fase 4), servido estático direto do repo — sem clone externo, sem
+// build step, por isso não passa por scripts/setup-sut.sh como o front do ServeRest.
+const GAME_URL = process.env.GAME_URL ?? 'http://localhost:8081';
 
 export default defineConfig({
   testDir: './src/tests',
@@ -49,6 +52,12 @@ export default defineConfig({
     {
       command: 'npx serve -s .sut/front/build -l 8080',
       url: FRONT_URL,
+      reuseExistingServer: !process.env.CI,
+      timeout: 30_000,
+    },
+    {
+      command: 'npx serve game -l 8081',
+      url: GAME_URL,
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,
     },

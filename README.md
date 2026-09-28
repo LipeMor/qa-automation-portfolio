@@ -38,6 +38,7 @@ npm run test:api             # só a suíte de API (tag @api), sem abrir browser
 npm run test:network         # só os testes de mock de rede (tag @network)
 npm run test:visual          # só os testes de visual regression (tag @visual)
 npm run test:accessibility   # só os testes de acessibilidade (tag @accessibility)
+npm run test:game            # só a automação do jogo da memória (tag @game)
 npm run test:visual:update   # regenera os baselines de visual regression (roda em Docker)
 npm run report                # abre o último relatório HTML
 npm run lint                  # ESLint
@@ -51,10 +52,12 @@ precisa abrir nada manualmente.
 ## Estrutura
 
 ```
+game/
+  index.html / game.js  # jogo da memória original (Canvas 2D puro, sem dependência externa) — Fase 4
 src/
   support/
     api/           # UsersApi/ProductsApi (criação/remoção via API) + schemas.ts (contratos zod)
-    pages/         # Page Objects
+    pages/         # Page Objects (inclui MemoryGamePage, com leitura de estado + pixel do canvas)
     fixtures.ts    # fixtures do Playwright (usuário e sessão admin/cliente descartáveis por teste)
   tests/
     auth/               # login via UI: credenciais válidas, senha errada, email inexistente
@@ -63,6 +66,7 @@ src/
     network/            # mocks de rede (page.route) para falhas que a API local não reproduz
     visual/             # visual regression com baseline real (toHaveScreenshot)
     accessibility/      # varredura WCAG 2 A/AA com @axe-core/playwright
+    game/               # automação do jogo da memória: estado real + pixel do canvas, não só clique
 docs/
   sut-serverest.md   # por que e como o SUT roda local, e o que foi verificado no código dele
 scripts/
@@ -93,4 +97,6 @@ etc.) e a UI não precisa ser tocada.
 - [x] **Fase 3** — mocks de rede (`page.route`), visual regression com baseline real (Docker,
       matching o SO do CI), acessibilidade (`@axe-core/playwright`), incluindo 2 achados reais
       documentados em `docs/sut-serverest.md`.
-- [ ] **Fase 4** — módulo de automação em Canvas/WebGL com um jogo próprio.
+- [ ] **Fase 4** — módulo de automação em Canvas com um jogo próprio (jogo da memória, `game/`):
+      estado real exposto (`window.__gameState`), seed determinística, delay assíncrono real de
+      comparação, validação por estado + pixel do canvas. Pendente validação numa execução real.

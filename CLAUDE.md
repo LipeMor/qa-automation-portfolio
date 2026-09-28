@@ -82,7 +82,18 @@ está certo.
   do teste), não enfraqueça a asserção pra passar — documente o achado em
   `docs/sut-serverest.md` como comportamento real, mesmo padrão já usado pros gaps de RBAC.
 
-## Fora de escopo por enquanto
+## Módulo de Canvas (`game/`, `src/tests/game/`)
 
-O módulo de Canvas/WebGL (Fase 4 do Roadmap no `README.md`) ainda não existe neste repositório.
-Não comece a implementá-lo a menos que a tarefa peça explicitamente.
+- `game/` é um jogo da memória original (Canvas 2D puro, sem framework, sem asset de terceiro) —
+  servido estático, sem build step. Não é vendorizado nem clonado como o ServeRest: é código nosso.
+- Estado real exposto em `window.__gameState` (cartas, movimentos, pares, `resolving`, `status`).
+  Testes leem esse estado em vez de inferir pelo clique — mesma disciplina de "efeito real, não
+  input" usada no resto do projeto.
+- Seed vem de `?seed=` na URL e controla o PRNG (`mulberry32`, sem dependência externa) — o layout
+  do tabuleiro é 100% determinístico a partir dela. Os testes nunca hardcodam índice de carta:
+  descobrem os pares lendo `window.__gameState.cards` depois do load.
+- `resolving` existe porque a comparação de duas cartas tem um delay assíncrono real
+  (`setTimeout`). Espere ele virar `false` (`MemoryGamePage.waitForResolved`) — nunca
+  `waitForTimeout`.
+- `MemoryGamePage.clickCard` deriva a posição do clique do bounding box atual do canvas, não de
+  coordenada fixa — se o layout do jogo mudar, o teste não quebra por coordenada hardcoded.

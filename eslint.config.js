@@ -25,4 +25,17 @@ module.exports = tseslint.config(
     files: ['src/tests/**/*.ts'],
     ...playwright.configs['flat/recommended'],
   },
+  {
+    // game/game.js roda direto no browser, sem build step (Fase 4) — por isso não está em
+    // tsconfig.json "include" nem é transpilado. Precisa dos globals de browser (não Node) pra não
+    // acusar window/document como não definidos.
+    files: ['game/**/*.js'],
+    languageOptions: {
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        URLSearchParams: 'readonly',
+      },
+    },
+  },
 );
