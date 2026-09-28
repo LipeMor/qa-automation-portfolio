@@ -9,10 +9,19 @@ test.describe('@visual @login', () => {
     // variação de frame de jogo em runtime), aqui o contrato é "essa tela deve continuar parecendo
     // exatamente assim".
     //
-    // IMPORTANTE: gere/atualize esse baseline com scripts/update-visual-baselines.sh, não com
-    // `npx playwright test --update-snapshots` direto no Mac — anti-aliasing de fonte difere entre
-    // macOS e o Ubuntu que o CI usa, e um baseline gerado localmente vai falhar no primeiro push
-    // por diferença de renderização do SO, não por regressão real.
+    // Só roda em Linux (mesmo SO do CI): o nome do arquivo de snapshot inclui a plataforma
+    // (login-chromium-{platform}.png), e só commitamos o -linux.png, gerado via
+    // scripts/update-visual-baselines.sh (Docker). Rodar puro no macOS local sempre falharia por
+    // "snapshot não existe" — não por regressão real, só porque não existe -darwin.png de
+    // propósito. Skip explícito é melhor que um vermelho que engana quem só rodou `npm test`.
+    // Skip condicional por SO, não "esqueci de terminar o teste" — daí o disable pontual.
+    // eslint-disable-next-line playwright/no-skipped-test
+    test.skip(
+      process.platform !== 'linux',
+      'baseline de visual regression só existe pra linux (mesmo SO do CI) — valide com ' +
+        '`npm run test:visual:update` (Docker) ou deixe o CI comparar',
+    );
+
     const loginPage = new LoginPage(page);
     await loginPage.goto();
 
