@@ -8,6 +8,11 @@ Este é um portfólio de engenharia de QA, não um produto: o interesse está em
 construídos (isolamento de dados, seletores estáveis, evidência de efeito real, CI verde) tanto
 quanto no que eles cobrem.
 
+Todo o processo foi construído com apoio do Claude Code — não como um gerador de código, mas como
+parte do fluxo real de investigação e decisão. [`docs/uso-de-ia-no-processo.md`](docs/uso-de-ia-no-processo.md)
+documenta quatro casos concretos e verificáveis (incluindo dois erros próprios, pegos por
+verificação), não uma descrição genérica.
+
 ## Stack
 
 Playwright · TypeScript · ESLint (flat config) + `eslint-plugin-playwright` · Prettier ·
